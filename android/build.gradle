@@ -1,10 +1,11 @@
 buildscript {
     repositories {
-        jcenter()
+        google()
+        mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.android.tools.build:gradle:3.4.1'
     }
 }
 
@@ -17,8 +18,8 @@ version          = version_number
 group            = group_info
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.3"
 
     sourceSets {
         main {
@@ -31,26 +32,26 @@ android {
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.aar')) {
                 def fileName = "${archivesBaseName}-${version}.aar"
-                output.outputFile = new File(outputFile.parent, fileName)
+                output.outputFileName = fileName
             }
         }
     }
 }
 
 repositories {
-    mavenCentral()
+    google()
+    jcenter()
 }
 
 dependencies {
-    compile project(':java')
-
-    androidTestCompile (project(":tests")) {
+    implementation project(':java')
+    androidTestImplementation (project(":tests")) {
         exclude module: 'junit'
     }
 }
 
 signing {
-    required { has("release") && gradle.taskGraph.hasTask("uploadArchives") }
+    required { hasProperty("release") && gradle.taskGraph.hasTask("uploadArchives") }
     sign configurations.archives
 }
 
@@ -59,20 +60,20 @@ uploadArchives {
     repositories.mavenDeployer {
         beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-        repository(url: sonatypeRepo) {
-            authentication(userName: whisperSonatypeUsername, password: whisperSonatypePassword)
+        repository(url: "") {
+            authentication(userName: "", password: "")
         }
 
         pom.project {
             name 'curve25519-android'
             packaging 'aar'
             description 'Curve25519 library for Android'
-            url 'https://github.com/WhisperSystems/curve25519-java'
+            url 'https://github.com/loki-project/loki-messenger-android-curve-25519'
 
             scm {
-                url 'scm:git@github.com:WhisperSystems/curve25519-java.git'
-                connection 'scm:git@github.com:WhisperSystems/curve25519-java.git'
-                developerConnection 'scm:git@github.com:WhisperSystems/curve25519-java.git'
+                url 'scm:git@github.com:loki-project/loki-messenger-android-curve-25519.git'
+                connection 'scm:git@github.com:loki-project/loki-messenger-android-curve-25519.git'
+                developerConnection 'scm:git@github.com:loki-project/loki-messenger-android-curve-25519.git'
             }
 
             licenses {
@@ -85,8 +86,7 @@ uploadArchives {
 
             developers {
                 developer {
-                    name 'Trevor Perrin'
-                    name 'Moxie Marlinspike'
+                    name 'Niels Andriesse'
                 }
             }
         }

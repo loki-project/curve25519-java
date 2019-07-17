@@ -15,7 +15,10 @@ class NativeCurve25519Provider implements Curve25519Provider {
     try {
       System.loadLibrary("curve25519");
       libraryPresent = true;
-    } catch (UnsatisfiedLinkError | SecurityException e) {
+    } catch (UnsatisfiedLinkError e) {
+      libraryPresent         = false;
+      libraryFailedException = e;
+    } catch (SecurityException e) {
       libraryPresent         = false;
       libraryFailedException = e;
     }

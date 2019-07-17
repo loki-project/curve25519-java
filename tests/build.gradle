@@ -17,6 +17,5 @@ test {
         events 'passed'
         showStandardStreams = true
     }
-
     include 'org/whispersystems/**'
 }

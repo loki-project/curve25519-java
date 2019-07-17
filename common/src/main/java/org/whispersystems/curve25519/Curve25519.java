@@ -50,6 +50,11 @@ public class Curve25519 {
     return provider.isNative();
   }
 
+  public Curve25519KeyPair generateKeyPair(byte[] privateKey) {
+    byte[] publicKey = provider.generatePublicKey(privateKey);
+    return new Curve25519KeyPair(publicKey, privateKey);
+  }
+
   /**
    * Generates a Curve25519 keypair.
    *
