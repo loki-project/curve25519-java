@@ -65,8 +65,8 @@ public abstract class Curve25519Test extends TestCase {
 
   public void testRandomAgreements() throws NoSuchAlgorithmException, NoSuchProviderException {
     for (int i=0;i<50;i++) {
-      Curve25519KeyPair alice = getInstance().generateKeyPair(getInstance().generateSeed(Curve25519Provider.PRIVATE_KEY_LEN));
-      Curve25519KeyPair bob   = getInstance().generateKeyPair(getInstance().generateSeed(Curve25519Provider.PRIVATE_KEY_LEN));
+      Curve25519KeyPair alice = getInstance().generateKeyPair();
+      Curve25519KeyPair bob   = getInstance().generateKeyPair();
 
       byte[] sharedAlice = getInstance().calculateAgreement(bob.getPublicKey(), alice.getPrivateKey());
       byte[] sharedBob   = getInstance().calculateAgreement(alice.getPublicKey(), bob.getPrivateKey());
@@ -131,7 +131,7 @@ public abstract class Curve25519Test extends TestCase {
   }
 
   public void testLargeSignatures() throws NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException {
-    Curve25519KeyPair keys      = getInstance().generateKeyPair(getInstance().generateSeed(Curve25519Provider.PRIVATE_KEY_LEN));
+    Curve25519KeyPair keys      = getInstance().generateKeyPair();
     byte[]            message   = new byte[1024 * 1024];
     byte[]            signature = getInstance().calculateSignature(keys.getPrivateKey(), message);
 
