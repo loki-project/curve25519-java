@@ -50,20 +50,19 @@ public class Curve25519 {
     return provider.isNative();
   }
 
-  public Curve25519KeyPair generateKeyPair(byte[] privateKey) {
-    byte[] publicKey = provider.generatePublicKey(privateKey);
+  public byte[] generateSeed(int length) {
+      return provider.getRandom(length);
+  }
+
+  public Curve25519KeyPair generateKeyPair(byte[] seed) {
+    byte[] privateKey = provider.generatePrivateKey(seed);
+    byte[] publicKey  = provider.generatePublicKey(privateKey);
     return new Curve25519KeyPair(publicKey, privateKey);
   }
 
-  /**
-   * Generates a Curve25519 keypair.
-   *
-   * @return A randomly generated Curve25519 keypair.
-   */
   public Curve25519KeyPair generateKeyPair() {
     byte[] privateKey = provider.generatePrivateKey();
     byte[] publicKey  = provider.generatePublicKey(privateKey);
-
     return new Curve25519KeyPair(publicKey, privateKey);
   }
 
