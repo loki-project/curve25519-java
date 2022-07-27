@@ -69,6 +69,10 @@ abstract class BaseJavaCurve25519Provider implements Curve25519Provider {
     return result;
   }
 
+  public byte[] convertToEd25519PublicKey(byte[] publicKey) {
+    return curve_sigs.ed25519_pubkey(publicKey);
+  }
+
   public boolean verifySignature(byte[] publicKey, byte[] message, byte[] signature) {
     return curve_sigs.curve25519_verify(sha512provider, signature, publicKey, message, message.length) == 0;
   }

@@ -60,6 +60,35 @@ public class curve_sigs {
        return 0;
     }
 
+    public static byte[] ed25519_pubkey(byte[] curve25519_pubkey)
+    {
+        int[] mont_x = new int[10];
+        int[] mont_x_minus_one = new int[10];
+        int[] mont_x_plus_one = new int[10];
+        int[] inv_mont_x_plus_one = new int[10];
+        int[] one = new int[10];
+        int[] ed_y = new int[10];
+        byte[] ed_pubkey = new byte[32];
+
+      /* Convert the Curve25519 public key into an Ed25519 public key.  In
+         particular, convert Curve25519's "montgomery" x-coordinate into an
+         Ed25519 "edwards" y-coordinate:
+
+         ed_y = (mont_x - 1) / (mont_x + 1)
+
+         NOTE: mont_x=-1 is converted to ed_y=0 since fe_invert is mod-exp
+      */
+        fe_frombytes.fe_frombytes(mont_x, curve25519_pubkey);
+        fe_1.fe_1(one);
+        fe_sub.fe_sub(mont_x_minus_one, mont_x, one);
+        fe_add.fe_add(mont_x_plus_one, mont_x, one);
+        fe_invert.fe_invert(inv_mont_x_plus_one, mont_x_plus_one);
+        fe_mul.fe_mul(ed_y, mont_x_minus_one, inv_mont_x_plus_one);
+        fe_tobytes.fe_tobytes(ed_pubkey, ed_y);
+
+        return ed_pubkey;
+    }
+
     public static int curve25519_verify(Sha512 sha512provider, byte[] signature,
                           byte[] curve25519_pubkey,
                           byte[] msg, int msg_len)

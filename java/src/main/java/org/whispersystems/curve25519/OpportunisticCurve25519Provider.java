@@ -59,6 +59,9 @@ public class OpportunisticCurve25519Provider implements Curve25519Provider {
   }
 
   @Override
+  public native byte[] convertToEd25519PublicKey(byte[] publicKey);
+
+  @Override
   public boolean verifySignature(byte[] publicKey, byte[] message, byte[] signature) {
     return delegate.verifySignature(publicKey, message, signature);
   }
