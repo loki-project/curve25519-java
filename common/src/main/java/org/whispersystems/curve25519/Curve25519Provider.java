@@ -17,6 +17,7 @@ interface Curve25519Provider {
   byte[] generatePrivateKey(byte[] random);
 
   byte[] calculateSignature(byte[] random, byte[] privateKey, byte[] message);
+  byte[] convertToEd25519PublicKey(byte[] publicKey);
   boolean verifySignature(byte[] publicKey, byte[] message, byte[] signature);
   byte[] calculateVrfSignature(byte[] random, byte[] privateKey, byte[] message);
   byte[] verifyVrfSignature(byte[] publicKey, byte[] message, byte[] signature)

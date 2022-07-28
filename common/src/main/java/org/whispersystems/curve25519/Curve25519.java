@@ -102,6 +102,20 @@ public class Curve25519 {
   }
 
   /**
+   * Convert a Curve25519 public key to a Ed25519 public key.
+   *
+   * @param publicKey The Curve25519 public key to convert.
+   * @return the 32-byte Ed25519 public key.
+   */
+  public byte[] convertToEd25519PublicKey(byte[] publicKey) {
+    if (publicKey == null || publicKey.length != 32) {
+      throw new IllegalArgumentException("Invalid public key!");
+    }
+
+    return provider.convertToEd25519PublicKey(publicKey);
+  }
+
+  /**
    * Verify a Curve25519 signature.
    *
    * @param publicKey The Curve25519 public key the signature belongs to.

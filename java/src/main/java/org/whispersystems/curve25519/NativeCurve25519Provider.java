@@ -73,6 +73,9 @@ class NativeCurve25519Provider implements Curve25519Provider {
   public native byte[] calculateSignature(byte[] random, byte[] privateKey, byte[] message);
 
   @Override
+  public native byte[] convertToEd25519PublicKey(byte[] publicKey);
+
+  @Override
   public native boolean verifySignature(byte[] publicKey, byte[] message, byte[] signature);
 
   @Override
